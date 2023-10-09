@@ -1,5 +1,6 @@
 import json
-from flask import Flask, jsonify, make_response,request
+import os
+from flask import Flask, jsonify, make_response,request, render_template
 from flask_cors import CORS
 from twilio.rest import Client
 
@@ -9,9 +10,11 @@ app = Flask(__name__)
 
 CORS(app, resources={r"/*": {"origins": "*"}})
 
+@app.route('/')
+def index():
+    return render_template('index.html')
 
-
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/api', methods=['GET', 'POST'])
 def datas():
     data = request.form.to_dict(flat=False)
 
@@ -20,7 +23,6 @@ def datas():
     city = ""
     phone = ""
     try:
-        print(data)
         json_string = list(data.keys())[0]
         parsed_data = json.loads(json_string)
 
@@ -72,9 +74,6 @@ def datas():
 
     if feature is None:
         feature = features[0]
-
-    print(feature)
-
 
     episodealertlevel = feature["properties"]["episodealertlevel"]
 
