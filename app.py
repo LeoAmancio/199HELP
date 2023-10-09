@@ -122,4 +122,4 @@ def datas():
     }))
     return response
 
-app.run(port=80)
+app.run()
